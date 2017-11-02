@@ -50,7 +50,7 @@ int main(void)
     return 0;
 }
 
-void onPress(void) interrupt 0 using 0
+void onToggle(void) interrupt 0 // INT0
 {
     stopped = ~stopped;
 }
