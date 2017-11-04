@@ -39,10 +39,10 @@ volatile uint8 timePerInterval = 0;
 int main(void)
 {
     TMOD = M16BT0;  // T0 16位定时器
-	TH0 = T16BH(TimerInterval);
-	TL0 = T16BL(TimerInterval);
-	IT0 = 1;  // INT0边沿触发
-	PX0 = 1;  // INT0高优先级
+    TH0 = T16BH(TimerInterval);
+    TL0 = T16BL(TimerInterval);
+    IT0 = 1;  // INT0边沿触发
+    PX0 = 1;  // INT0高优先级
     EX0 = 1;  // 允许外部INT0中断
     ET0 = 1;  // 允许定时器T0中断
     EA = 1;   // 允许中断
@@ -66,7 +66,7 @@ void onTrigger(void) interrupt 0 using 1 // INT0
 void timeout(void) interrupt 1 using 2 // T0
 {
     TH0 = T16BH(TimerInterval);
-	TL0 = T16BL(TimerInterval);
+    TL0 = T16BL(TimerInterval);
     if(timePerInterval<DesignRangePerInterval)
     {
         ++timePerInterval;
