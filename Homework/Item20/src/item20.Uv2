@@ -7,6 +7,7 @@ Group (Source Group 1)
 
 File 1,2,<.\STARTUP.A51><STARTUP.A51> 0x0 
 File 1,1,<.\main.c><main.c> 0x0 
+File 1,1,<.\max7219.c><max7219.c> 0x0 
 
 
 Options 1,0,0  // Target 'Target 1'
@@ -46,14 +47,14 @@ Options 1,0,0  // Target 'Target 1'
  BrunUsr 1 0 <>
  SVCSID <>
  MODEL5=0
- RTOS5=0
+ RTOS5=1
  ROMSZ5=2
  DHOLD5=0
  XHOLD5=0
  T51FL=80
  CBANKS5=0
  XBANKS5=0
- RCB51 { 0,0,0,0,0,0,0,1,0 }
+ RCB51 { 0,0,0,0,0,255,255,0,0 }
  RXB51 { 0,0,0,0,0,0,0,0,0 }
  OCM51 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
  OCR51 { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
