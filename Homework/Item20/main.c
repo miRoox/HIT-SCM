@@ -61,34 +61,34 @@ int main(void)
                 digitDisplay7219(2,DigCode[0]);
                 switch(keyNum)
                 {
-				case(0xFE):	  // S0
+                case(0xFE):   // S0
                     digitDisplay7219(3,DigCode[1]);
-					break;
-				case(0xFD):	  // S1
-					digitDisplay7219(3,DigCode[2]);
-					break;
-				case(0xFB):	  // S2
-					digitDisplay7219(3,DigCode[3]);
-					break;
-				case(0xF7):	  // S3
-					digitDisplay7219(3,DigCode[4]);
-					break;
-				case(0xEF):	  // S4
-					digitDisplay7219(3,DigCode[5]);
-					break;
-				case(0xDF):	  // S5
-					digitDisplay7219(3,DigCode[6]);
-					break;
-				case(0xBF):	  // S6
-					digitDisplay7219(3,DigCode[7]);
-					break;
-				case(0x7F):	  // S7
-					digitDisplay7219(3,DigCode[8]);
-					break;
-				default:
+                    break;
+                case(0xFD):   // S1
+                    digitDisplay7219(3,DigCode[2]);
+                    break;
+                case(0xFB):   // S2
+                    digitDisplay7219(3,DigCode[3]);
+                    break;
+                case(0xF7):   // S3
+                    digitDisplay7219(3,DigCode[4]);
+                    break;
+                case(0xEF):   // S4
+                    digitDisplay7219(3,DigCode[5]);
+                    break;
+                case(0xDF):   // S5
+                    digitDisplay7219(3,DigCode[6]);
+                    break;
+                case(0xBF):   // S6
+                    digitDisplay7219(3,DigCode[7]);
+                    break;
+                case(0x7F):   // S7
+                    digitDisplay7219(3,DigCode[8]);
+                    break;
+                default:
                     digitDisplay7219(2,1); // '-'
-					digitDisplay7219(3,1); // '-'
-					break;
+                    digitDisplay7219(3,1); // '-'
+                    break;
                 }
                 beep();
             }
@@ -168,15 +168,15 @@ void beep(void)
 {
     uint16 j;
     uint8 k;
-	for(j=0;j<1000;++j)
+    for(j=0;j<1000;++j)
     {
-		for(k=0;k<20;++k)
+        for(k=0;k<20;++k)
         {
-			bee=0;
-		}
-		for(k=0;k<20;++k)
+            bee=0;
+        }
+        for(k=0;k<20;++k)
         {
-			bee=1;
-		}
-	}
+            bee=1;
+        }
+    }
 }
