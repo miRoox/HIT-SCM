@@ -8,7 +8,7 @@
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 
-void delay(void);
+void delay(void) reentrant;
 void progress(void);
 void flash(void);
 
@@ -17,7 +17,7 @@ int main(void)
     EX1=1;  // 允许外部INT1中断
     IT1=0;  // INT1电平触发
     EA=1;   // 允许中断
-    
+
     forever
     {
         progress();
@@ -52,12 +52,12 @@ void flash(void)
     delay();
 }
 
-void onPress(void) interrupt 2 // INT1
+void onPress(void) interrupt 2 using 1 // INT1
 {
     flash();
 }
 
-void delay(void)
+void delay(void) reentrant
 {
     volatile uint16 i = 0xffff;
     while(--i);
