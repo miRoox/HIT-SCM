@@ -6,12 +6,16 @@ sbit SW1 = P3^5;
 
 #define forever for(;;)
 #define waitForRelease(key) while(key==0)
-#define waitForComplete while(!TI);TI=0
+
+typedef unsigned char uint8;
 
 enum
 {
     Pressed = 0,
 };
+
+void serialSend(uint8 dat);
+void delay(void);
 
 int main(void)
 {
@@ -36,11 +40,28 @@ int main(void)
     {
         if(SW1==Pressed)
         {
-            SBUF = 1;
-            waitForComplete;
+            serialSend(1);
+            delay();  // 消抖
             waitForRelease(SW1);
         }
     }
 
     return 0;
+}
+
+void serialSend(uint8 dat)
+{
+    SBUF = dat;
+    while(!TI);
+    TI=0;
+}
+
+void delay(void)
+{
+    volatile uint8 i = 0xff;
+    do {
+        volatile uint8 j = 0xff;
+        while(--j);
+    }
+    while(--i);
 }
