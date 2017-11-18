@@ -5,9 +5,10 @@
 
 #define forever for(;;)
 
+typedef unsigned char uint8;
 typedef unsigned short uint16;
 
-void delay(void) reentrant;
+void delay(void);
 
 int main(void)
 {
@@ -28,15 +29,15 @@ int main(void)
     return 0;
 }
 
-void onTrigger(void) interrupt 0 // INT0
+void onTrigger(void) interrupt 0 using 1 // INT0
 {
-    static led = ~1;
+    static uint8 led = ~1;
     LED = led;
     delay();
     led = _crol_(led,1);
 }
 
-void delay(void) reentrant
+void delay(void)
 {
     volatile uint16 i = 0xffff;
     while(--i);
