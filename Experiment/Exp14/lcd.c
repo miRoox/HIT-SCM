@@ -30,16 +30,25 @@ void lcdInit(void)
 #endif
 }
 
+/*!
+    write command to lcd
+*/
 void lcdWriteComd(unsigned char cmd)
 {
     lcdWrite(OP_COMD,cmd);
 }
 
+/*!
+    write data to lcd
+*/
 void lcdWriteData(unsigned char dat)
 {
     lcdWrite(OP_DATA,dat);
 }
 
+/*!
+    wait when lcd is busy
+*/
 void lcdWaitBusy(void)
 {
     unsigned char dat;
@@ -92,11 +101,17 @@ void lcdWaitBusy(void)
 
 }
 
+/*!
+    lcd clear screen
+*/
 void lcdCls(void)
 {
     lcdWriteComd(CMD_CLS);
 }
 
+/*!
+    put character to lcd
+*/
 void lcdPutchar(unsigned char c)
 {
     if(isprint(c))
@@ -109,6 +124,9 @@ void lcdPutchar(unsigned char c)
     }
 }
 
+/*!
+    put string to lcd
+*/
 void lcdPuts(unsigned char *str)
 {
     for(;*str;++str)
@@ -117,6 +135,9 @@ void lcdPuts(unsigned char *str)
     }
 }
 
+/*!
+    line feed on lcd
+*/
 void lcdLineFeed(void)
 {
 #ifndef LCD1602_10ROWS
