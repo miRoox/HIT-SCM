@@ -8,7 +8,7 @@
     
 typedef unsigned char uint8;
 
-static const uint8 code DigitCode[16] = {
+const uint8 code DigitCode[16] = {  // 共阳
     0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0x88,0x83,0xc6,0xa1,0x86,0x8e
 };// 0    1    2    3    4    5    6    7    8    9    A    b    C    d    E    F
 
@@ -32,11 +32,14 @@ void delay(void);
 
 int main(void) using 0
 {
+    // init digitBuffer
     uint8 i;
     for(i=0;i<8;++i)
     {
         digitBuffer[i] = NoDigit;
     }
+    // init KeyBoard
+    KeyBoard = 0xf0;
     
     SCON = 0X50;     // 方式1 + 允许串口接收
     TMOD = 0X20;     // T1 8位自动重装定时器
@@ -53,7 +56,6 @@ int main(void) using 0
     
     forever
     {
-        KeyBoard = 0xf0;
         if(aboutToSend)
         {
             digitBuffer[1] = DigitCode[dataToSend];
@@ -125,7 +127,7 @@ uint8 keyScan(void)
             case(0xb0): keyVal = 2; break;
             case(0xd0): keyVal = 1; break;
             case(0xe0): keyVal = 0; break;
-            default: return InvalidKey;
+            default: keyVal = InvalidKey; goto ret;
         }
         KeyBoard = 0xff;
         // delay();
@@ -137,10 +139,12 @@ uint8 keyScan(void)
             case(0x0b): keyVal += 8; break;
             case(0x0d): keyVal += 4; break;
             case(0x0e): keyVal += 0; break;
-            default: return InvalidKey;
+            default: keyVal = InvalidKey; goto ret;
         }
     }
     
+ret:
+    KeyBoard = 0xf0;    // restore
     return keyVal;
 }
 
