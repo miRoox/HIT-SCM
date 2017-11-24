@@ -19,9 +19,9 @@ enum
 };
 
 bit aboutToSend = 0;
-bit recieved = 0;
+bit received = 0;
 uint8 dataToSend;
-uint8 recievedData;
+uint8 receivedData;
 
 uint8 digitBuffer[8];
 
@@ -60,9 +60,9 @@ int main(void) using 0
         {
             digitBuffer[1] = DigitCode[dataToSend];
         }
-        if(recieved)
+        if(received)
         {
-            digitBuffer[6] = DigitCode[recievedData];
+            digitBuffer[6] = DigitCode[receivedData];
         }
         digitDisplay();
     }
@@ -91,8 +91,8 @@ void onTrigger(void) interrupt 2 using 2 // INT1
 void serialRecieve(void) interrupt 4 using 3 // RX
 {
     RI = 0;
-    recievedData = SBUF;
-    recieved = 1;
+    receivedData = SBUF;
+    received = 1;
 }
 
 void digitDisplay(void)
