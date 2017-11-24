@@ -24,8 +24,8 @@ enum // TMOD
 #define HIBYTE(x) ((unsigned char)((x)>>8))
 
 // 定时器定时计算 单位：us
-#define T8BH(x)  HIBYTE((unsigned short)(0x100-(x)/(12/FREQ)))
-#define T8BL(x)  LOBYTE((unsigned short)(0x100-(x)/(12/FREQ)))
+#define T8BH(x)  ((unsigned char)(0x100-(x)/(12/FREQ)))
+#define T8BL(x)  ((unsigned char)(0x100-(x)/(12/FREQ)))
 #define T13BH(x) HIBYTE((unsigned short)(0x2000-(x)/(12/FREQ)))
 #define T13BL(x) LOBYTE((unsigned short)(0x2000-(x)/(12/FREQ)))
 #define T16BH(x) HIBYTE((unsigned short)(0x10000-(x)/(12/FREQ)))
