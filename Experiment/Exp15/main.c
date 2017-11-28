@@ -2,7 +2,7 @@
 
 #define DAOut P1
 sbit DACS = P2^0;
-sbit DAWS1 = P2^1;
+sbit DAWR1 = P2^1;
 
 #define forever for(;;)
 
@@ -15,7 +15,7 @@ int main(void)
     uint8 i = 0;
 
     DACS = 0;  // 片选
-    DAWS1 = 0; // 一直写入
+    DAWR1 = 0; // 一直写入
 
     forever
     {
