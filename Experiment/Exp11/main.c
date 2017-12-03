@@ -23,7 +23,7 @@ int main(void)
     {
         pA8255 = pB8255;
     }
-    
+
     return 0;
 }
 

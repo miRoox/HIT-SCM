@@ -5,7 +5,7 @@
 #define KeyBoard     P1 // 矩阵键盘
 
 #define forever for(;;)
-    
+
 typedef unsigned char uint8;
 
 const uint8 code DigitCode[16] = {  // 共阳
@@ -40,7 +40,7 @@ int main(void) using 0
     }
     // init KeyBoard
     KeyBoard = 0xf0;
-    
+
     SCON = 0X50;     // 方式1 + 允许串口接收
     TMOD = 0X20;     // T1 8位自动重装定时器
     PCON |= 0X80;
@@ -53,7 +53,7 @@ int main(void) using 0
     ES = 1;
     EA = 1;
     TR1 = 1;
-    
+
     forever
     {
         if(aboutToSend)
@@ -66,7 +66,7 @@ int main(void) using 0
         }
         digitDisplay();
     }
-    
+
     return 0;
 }
 
@@ -101,11 +101,11 @@ void digitDisplay(void)
     for(;i<8;++i)
     {
         volatile uint8 j;
-        
+
         DigitPlace = (1<<i);
         DigitSegment = digitBuffer[i];
-        
-        for(j=10;--j;);	// 扫描间隔时间
+
+        for(j=10;--j;);    // 扫描间隔时间
         DigitSegment = NoDigit;
     }
 }
@@ -113,10 +113,10 @@ void digitDisplay(void)
 uint8 keyScan(void)
 {
     uint8 keyVal = InvalidKey;
-    
+
     KeyBoard = 0xf0;
     // delay();
-    
+
     if((KeyBoard&0xf0)!=0xf0)
     {
         KeyBoard = 0xf0;
@@ -142,7 +142,7 @@ uint8 keyScan(void)
             default: keyVal = InvalidKey; goto ret;
         }
     }
-    
+
 ret:
     KeyBoard = 0xf0;    // restore
     return keyVal;

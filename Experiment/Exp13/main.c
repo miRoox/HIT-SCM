@@ -72,10 +72,10 @@ uint8 keyScan(void)
                 case(0x0e): keyVal += 0; break;
                 default: return InvalidKey;
             }
-            for(i = 0xff;i && (KeyBoard!=0x0f);--i)	 // 按键松手检测
-			{
-				delay();
-			}
+            for(i = 0xff;i && (KeyBoard!=0x0f);--i)  // 按键松手检测
+            {
+                delay();
+            }
         }
     }
 

@@ -55,7 +55,7 @@ void lcdWaitBusy(void)
 #ifndef  LCD1602_4PINS
 
     do {
-        
+
         LCD1602_E = 0;
         delay(3);
 
