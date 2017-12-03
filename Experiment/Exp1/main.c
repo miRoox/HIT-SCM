@@ -1,4 +1,5 @@
 #include <REGX51.H>
+#include <intrins.h>
 
 #define LED P2
 
@@ -12,13 +13,12 @@ void delay(void);
 
 int main(void)
 {
-    LED = 0;
+    LED = ~1;// 共阳，低电平有效
 
     forever
     {
-        if(LED==0) LED = 0xff; // 共阳，低电平有效
-        LED <<= 1; // 从上到下
         delay();
+        LED  = _crol_(LED,1);
     }
 
     return 0;
@@ -30,7 +30,7 @@ volatile bit stopped;
 
 int main(void)
 {
-    LED = 0;
+    LED = ~1;// 共阳，低电平有效
     stopped = 0;
 
     EX0=1;  // 允许外部INT0中断
@@ -41,9 +41,8 @@ int main(void)
     {
         if(!stopped)
         {
-            if(LED==0) LED = 0xff; // 共阳，低电平有效
-            LED <<= 1; // 从上到下
             delay();
+            LED  = _crol_(LED,1);
         }
     }
 
