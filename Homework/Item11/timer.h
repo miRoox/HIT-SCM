@@ -20,15 +20,12 @@ enum // TMOD
     M8BTSP = 0x03, // T0分成两个独立的8位定时/计数器
 };
 
-#define LOBYTE(x) ((unsigned char)((x)&0x00ffU))
-#define HIBYTE(x) ((unsigned char)((x)>>8))
-
 // 定时器定时计算 单位：us
 #define T8BH(x)  ((unsigned char)(0x100-(x)/(12/FREQ)))
 #define T8BL(x)  ((unsigned char)(0x100-(x)/(12/FREQ)))
-#define T13BH(x) HIBYTE((unsigned short)(0x2000-(x)/(12/FREQ)))
-#define T13BL(x) LOBYTE((unsigned short)(0x2000-(x)/(12/FREQ)))
-#define T16BH(x) HIBYTE((unsigned short)(0x10000-(x)/(12/FREQ)))
-#define T16BL(x) LOBYTE((unsigned short)(0x10000-(x)/(12/FREQ)))
+#define T13BH(x) ((unsigned char)((((unsigned short)(0x2000-(x)/(12/FREQ)))>>5)&0x00ffU))
+#define T13BL(x) ((unsigned char)(((unsigned short)(0x2000-(x)/(12/FREQ)))&0x001fU))
+#define T16BH(x) ((unsigned char)(((unsigned short)(0x10000-(x)/(12/FREQ)))>>8))
+#define T16BL(x) ((unsigned char)(((unsigned short)(0x10000-(x)/(12/FREQ)))&0x00ffU))
 
 #endif // TIMER_H_
