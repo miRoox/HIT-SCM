@@ -25,6 +25,7 @@ static enum ScanState {
 } state = NotScan;
 
 static uint8 counter = 0;
+static uint16 distance = 0;
 
 static struct BestDistance
 {
@@ -37,7 +38,7 @@ static void startScan(void);
 static void nextState(void);
 static void finishScan(void);
 static void measure(void);
-static uint16 getDistance(void);
+static void ranging(void);
 
 void tryScan(ScanAction action)
 {
@@ -91,9 +92,14 @@ void scanRecord(void)
     }
 }
 
+uint16 getDistance(void)
+{
+    return distance;
+}
+
 static void measure(void)
 {
-    uint16 distance = getDistance();
+    ranging();
     if (state == Backup || state == ToBest)
         return;
     if (state != NotScan)
@@ -174,9 +180,8 @@ static void finishScan(void)
     postMessage(TurnTo, Forward);
 }
 
-static uint16 getDistance(void)
+static void ranging(void)
 {
-    uint16 distance = 0;
     TMOD |= (M16BT1 | GATE1);
     TH1 = TL1 = 0;
 	TRIG = 0;
@@ -191,5 +196,4 @@ static uint16 getDistance(void)
     distance = TH1 * 0x100u + TL1; // us
 	TMOD &= ~(M16BT1 | GATE1);
     distance /= 58;                // us -> cm
-    return distance;
 }
