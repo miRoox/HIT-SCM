@@ -11,9 +11,9 @@ sbit TRIG = P1 ^ 2;
 
 enum // Constant
 {
-    Margin = 12u,       //12cm
-    SafeDistance = 25u, // 25cm
-    ScanRange = 100u,   // about 90deg
+    Margin = 15u,       //15cm
+    SafeDistance = 45u, // 45cm
+    ScanRange = 90u,   // about 90deg
 };
 
 static enum ScanState {
@@ -111,7 +111,7 @@ static void measure(void)
     }
     else if (distance <= Margin)
     {
-        postMessage(TryScan, ScanOne);
+        postMessage(TryScan, Start);
     }
 }
 
@@ -130,8 +130,10 @@ static void nextState(void)
     {
     case ScanOne:
         state = Backup;
+        postMessage(TurnTo,oppositeDirection(currentDirection()));
         break;
     case Backup:
+        counter = 0;
         state = ScanAnother;
         break;
     case ScanAnother:
@@ -145,6 +147,7 @@ static void nextState(void)
             {
                 counter = ScanRange + best.position;
             }
+            postMessage(TurnTo,oppositeDirection(currentDirection()));
             state = ToBest;
         }
         else // best.distance < Margin
@@ -167,7 +170,7 @@ static void finishScan(void)
     counter = 0;
     best.distance = 0;
     best.position = 0;
-    best.direct = currentDirection(); // counter for next selection
+    best.direct = currentDirection(); // for next selection
     postMessage(TurnTo, Forward);
 }
 
@@ -176,16 +179,17 @@ static uint16 getDistance(void)
     uint16 distance = 0;
     TMOD |= (M16BT1 | GATE1);
     TH1 = TL1 = 0;
+	TRIG = 0;
     TRIG = 1;
     delayus(10);
     TRIG = 0;
     while (ECHO);
-    TR1 = 1;
     while (!ECHO);
+	TR1 = 1;
     while (ECHO);
     TR1 = 0;
-    TMOD &= ~(M16BT1 | GATE1);
     distance = TH1 * 0x100u + TL1; // us
+	TMOD &= ~(M16BT1 | GATE1);
     distance /= 58;                // us -> cm
     return distance;
 }

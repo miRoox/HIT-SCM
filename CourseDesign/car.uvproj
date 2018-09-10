@@ -361,6 +361,11 @@
               <FileType>1</FileType>
               <FilePath>.\movement.c</FilePath>
             </File>
+            <File>
+              <FileName>scan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\scan.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
