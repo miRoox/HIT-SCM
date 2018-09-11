@@ -158,26 +158,27 @@ static void nextState(void)
         }
         else // best.distance < Margin
         {
-            postMessage(TryScan, Finish);
-            postMessage(TryScan, Start); // restart scan
+            finishScan();
+            startScan(); // restart scan
         }
         break;
     default:
-        postMessage(TryScan, Finish);
+        finishScan();
         break;
     }
 }
 
 static void finishScan(void)
 {
-    if (state == NotScan)
-        return;
-    state = NotScan;
-    counter = 0;
-    best.distance = 0;
-    best.position = 0;
-    best.direct = currentDirection(); // for next selection
-    postMessage(TurnTo, Forward);
+    if (state != NotScan)
+    {
+        state = NotScan;
+        counter = 0;
+        best.distance = 0;
+        best.position = 0;
+        best.direct = currentDirection(); // for next selection
+        postMessage(TurnTo, Forward);
+    }
 }
 
 static void ranging(void)
@@ -194,6 +195,6 @@ static void ranging(void)
     while (ECHO);
     TR1 = 0;
     distance = TH1 * 0x100u + TL1; // us
-	TMOD &= ~(M16BT1 | GATE1);
     distance /= 58;                // us -> cm
+    TMOD &= ~(M16BT1 | GATE1);
 }

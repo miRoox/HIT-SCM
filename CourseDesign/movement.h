@@ -3,9 +3,9 @@
 
 typedef enum _Direction
 {
-    Forward = 0x00u,
-    Right   = 0x01u,
-    Left    = 0x02u,
+    Forward,
+    Right,
+    Left,
 } Direction;
 
 extern void runAsUsual(void);

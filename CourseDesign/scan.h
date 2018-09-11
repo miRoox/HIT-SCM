@@ -9,7 +9,6 @@ typedef enum _ScanAction
     Start,
     Next,
     Finish,
-    Restart,
 } ScanAction;
 
 enum // Constant
