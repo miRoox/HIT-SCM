@@ -7,19 +7,18 @@
 sbit ECHO = P3 ^ 3; // INT1
 sbit TRIG = P1 ^ 2;
 
-// --
-
 enum // Constant
 {
-    Margin = 15u,       //15cm
-    SafeDistance = 45u, // 45cm
+    Margin = 20u,       //20cm
+    SafeDistance = 50u, // 50cm
+    BackStep = 25u,
     ScanRange = 90u,   // about 90deg
 };
 
 static enum ScanState {
     NotScan,
     ScanOne,
-    Backup,
+    ToStraight,
     ScanAnother,
     ToBest,
 } state = NotScan;
@@ -37,6 +36,7 @@ static struct BestDistance
 static void startScan(void);
 static void nextState(void);
 static void finishScan(void);
+static void scanRecord(void);
 static void measure(void);
 static void ranging(void);
 
@@ -46,6 +46,9 @@ void tryScan(ScanAction action)
     {
     case Measure:
         measure();
+        break;
+    case Record:
+        scanRecord();
         break;
     case Start:
         startScan();
@@ -61,7 +64,7 @@ void tryScan(ScanAction action)
     }
 }
 
-void scanRecord(void)
+static void scanRecord(void)
 {
     switch (state)
     {
@@ -76,7 +79,7 @@ void scanRecord(void)
             postMessage(TryScan, Next);
         }
         break;
-    case Backup:
+    case ToStraight:
     case ToBest:
         if (counter > 0)
         {
@@ -92,17 +95,15 @@ void scanRecord(void)
     }
 }
 
-uint16 getDistance(void)
-{
-    return distance;
-}
+//uint16 getDistance(void)
+//{
+//    return distance;
+//}
 
 static void measure(void)
 {
     ranging();
-    if (state == Backup || state == ToBest)
-        return;
-    if (state != NotScan)
+    if (state == ScanOne || state == ScanAnother)
     {
         if (distance > SafeDistance)
         {
@@ -115,9 +116,20 @@ static void measure(void)
             best.direct = currentDirection();
         }
     }
-    else if (distance <= Margin)
+    else if (state == NotScan)
     {
-        postMessage(TryScan, Start);
+        if (distance <= Margin)
+        {
+            postMessage(TryScan, Start);
+        }
+        else if(distance > SafeDistance)
+        {
+            speedUpOrSlowDown(True);
+        }
+        else
+        {
+            speedUpOrSlowDown(False);
+        }
     }
 }
 
@@ -126,6 +138,7 @@ static void startScan(void)
     if (state == NotScan)
     {
         state = ScanOne;
+        counter = 0;
         postMessage(TurnTo, best.direct);
     }
 }
@@ -135,10 +148,10 @@ static void nextState(void)
     switch (state)
     {
     case ScanOne:
-        state = Backup;
+        state = ToStraight;
         postMessage(TurnTo,oppositeDirection(currentDirection()));
         break;
-    case Backup:
+    case ToStraight:
         counter = 0;
         state = ScanAnother;
         break;
@@ -183,7 +196,6 @@ static void finishScan(void)
 
 static void ranging(void)
 {
-    TMOD |= (M16BT1 | GATE1);
     TH1 = TL1 = 0;
 	TRIG = 0;
     TRIG = 1;
@@ -196,5 +208,4 @@ static void ranging(void)
     TR1 = 0;
     distance = TH1 * 0x100u + TL1; // us
     distance /= 58;                // us -> cm
-    TMOD &= ~(M16BT1 | GATE1);
 }

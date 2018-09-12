@@ -6,6 +6,7 @@
 typedef enum _ScanAction
 {
     Measure,
+    Record,
     Start,
     Next,
     Finish,
@@ -17,7 +18,7 @@ enum // Constant
 };
 
 extern void tryScan(ScanAction action);
-extern void scanRecord(void);
-extern uint16 getDistance(void);
+//8extern void scanRecord(void);
+//extern uint16 getDistance(void);
 
 #endif // SCAN_H_

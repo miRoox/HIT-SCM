@@ -30,7 +30,7 @@ void timeoutT1(void) interrupt 3
 
 enum
 {
-    MessageSize = 8u
+    MessageSize = 16u
 };
 
 typedef struct _Message

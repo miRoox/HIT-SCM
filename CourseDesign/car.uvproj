@@ -366,11 +366,6 @@
               <FileType>1</FileType>
               <FilePath>.\scan.c</FilePath>
             </File>
-            <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lcd.c</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>
