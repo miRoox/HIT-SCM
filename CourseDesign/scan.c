@@ -11,8 +11,7 @@ enum // Constant
 {
     Margin = 20u,       //20cm
     SafeDistance = 50u, // 50cm
-    BackStep = 25u,
-    ScanRange = 90u,   // about 90deg
+    ScanRange = 90u,    // about 90deg
 };
 
 static enum ScanState {
@@ -36,6 +35,7 @@ static struct BestDistance
 static void startScan(void);
 static void nextState(void);
 static void finishScan(void);
+static void restartScan(void);
 static void scanRecord(void);
 static void measure(void);
 static void ranging(void);
@@ -95,11 +95,6 @@ static void scanRecord(void)
     }
 }
 
-//uint16 getDistance(void)
-//{
-//    return distance;
-//}
-
 static void measure(void)
 {
     ranging();
@@ -122,7 +117,7 @@ static void measure(void)
         {
             postMessage(TryScan, Start);
         }
-        else if(distance > SafeDistance)
+        else if (distance > SafeDistance)
         {
             speedUpOrSlowDown(True);
         }
@@ -149,7 +144,7 @@ static void nextState(void)
     {
     case ScanOne:
         state = ToStraight;
-        postMessage(TurnTo,oppositeDirection(currentDirection()));
+        postMessage(TurnTo, oppositeDirection(currentDirection()));
         break;
     case ToStraight:
         counter = 0;
@@ -166,13 +161,12 @@ static void nextState(void)
             {
                 counter = ScanRange + best.position;
             }
-            postMessage(TurnTo,oppositeDirection(currentDirection()));
+            postMessage(TurnTo, oppositeDirection(currentDirection()));
             state = ToBest;
         }
         else // best.distance < Margin
         {
-            finishScan();
-            startScan(); // restart scan
+            restartScan();
         }
         break;
     default:
@@ -194,16 +188,28 @@ static void finishScan(void)
     }
 }
 
+static void restartScan(void)
+{
+    if (state != NotScan)
+    {
+        state = ScanOne;
+        counter = 0;
+        best.distance = 0;
+        best.position = 0;
+        best.direct = currentDirection();
+    }
+}
+
 static void ranging(void)
 {
     TH1 = TL1 = 0;
-	TRIG = 0;
+    TRIG = 0;
     TRIG = 1;
     delayus(10);
     TRIG = 0;
     while (ECHO);
     while (!ECHO);
-	TR1 = 1;
+    TR1 = 1;
     while (ECHO);
     TR1 = 0;
     distance = TH1 * 0x100u + TL1; // us

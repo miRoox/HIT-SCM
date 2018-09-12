@@ -25,7 +25,7 @@ static Bool isSpeedUp = True;
 
 void turn(Direction direct)
 {
-    if(direct == direction)
+    if (direct == direction)
         return;
     runWith(0, 0); // stop then turn
     direction = direct;
@@ -45,8 +45,6 @@ Direction oppositeDirection(Direction direct)
 {
     switch (direct)
     {
-    case Forward:
-        return Backward;
     case Right:
         return Left;
     case Left:
@@ -67,9 +65,6 @@ void runAsUsual(void)
         else
             runWith(100, 100);
         break;
-    case Backward:
-        runWith(-100, -100);
-        break;
     case Right:
         runWith(-200, 200);
         break;
@@ -79,5 +74,5 @@ void runAsUsual(void)
     default:
         break;
     }
-    postMessage(TryScan,Record);
+    postMessage(TryScan, Record);
 }

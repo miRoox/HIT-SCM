@@ -6,7 +6,6 @@
 typedef enum _Direction
 {
     Forward,
-    Backward,
     Right,
     Left,
 } Direction;

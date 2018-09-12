@@ -11,7 +11,6 @@ typedef enum _MessageType
     /* user-defined */
     TurnTo,  // data: direction
     TryScan, // data: scan action
-//    Repaint, // data: repaint area
 } MessageType;
 
 extern byte data T0IntervalH;
